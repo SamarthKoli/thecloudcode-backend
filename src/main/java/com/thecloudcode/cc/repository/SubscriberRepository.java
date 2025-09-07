@@ -18,6 +18,7 @@ public interface SubscriberRepository extends JpaRepository<Subscriber, Long> {
     boolean existsByEmail(String email);
     List<Subscriber> findByActiveTrue();
     
+    
     @Query("SELECT COUNT(s) FROM Subscriber s WHERE s.active = true")
     long countActiveSubscribers();
 }

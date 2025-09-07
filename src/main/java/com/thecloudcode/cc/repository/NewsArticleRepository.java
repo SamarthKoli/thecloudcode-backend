@@ -19,7 +19,7 @@ public interface NewsArticleRepository extends JpaRepository<NewsArticle,Long> {
     
     @Query("SELECT a FROM NewsArticle a WHERE a.createdAt >= :date ORDER BY a.publishedDate DESC")
     List<NewsArticle> findRecentArticles(LocalDateTime date);
-    
+      List<NewsArticle> findByPublishedDateAfterOrderByPublishedDateDesc(LocalDateTime date);
     boolean existsByUrl(String url);
 
 }

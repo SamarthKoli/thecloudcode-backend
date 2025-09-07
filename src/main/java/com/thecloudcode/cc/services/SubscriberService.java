@@ -4,6 +4,9 @@ package com.thecloudcode.cc.services;
 
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,34 @@ public class SubscriberService {
         }
         Subscriber subscriber = new Subscriber(email);
         return subscriberRepository.save(subscriber);
+    }
+
+
+    public boolean isEmailSubscribed(String email){
+        Optional<Subscriber>subscriber=subscriberRepository.findByEmail(email);
+        if (subscriber.isPresent()) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public  Subscriber findByEmail(String email){
+        return subscriberRepository.findByEmail(email).get();
+    }
+    public void unSubscribe(String email)throws Exception{
+      Optional<Subscriber> subscriber=subscriberRepository.findByEmail(email);
+
+      if (subscriber.isEmpty()) {
+          throw new Exception("User not found");
+      }
+      else{
+             Subscriber existing=subscriber.get();
+             existing.setActive(false);
+             subscriberRepository.delete(existing);;
+      }
+
     }
 
       public List<Subscriber> getAllActiveSubscribers() {

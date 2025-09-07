@@ -33,6 +33,10 @@ public class NewsArticle {
     @Column(length = 1000)
     private String url;
 
+       
+    @Column(name = "image_url", length = 1000)
+    private String imageUrl;
+
     private String source;
 
     private LocalDateTime publishedDate;
