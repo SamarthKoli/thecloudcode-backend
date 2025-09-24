@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @EnableScheduling
-@CrossOrigin(origins = "https://thecloudcode-frontend-chyqujvcz-codersams-projects.vercel.app/")
-
 public class CcApplication {
 
 	public static void main(String[] args) {
