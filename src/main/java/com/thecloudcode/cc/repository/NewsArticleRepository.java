@@ -22,4 +22,7 @@ public interface NewsArticleRepository extends JpaRepository<NewsArticle,Long> {
       List<NewsArticle> findByPublishedDateAfterOrderByPublishedDateDesc(LocalDateTime date);
     boolean existsByUrl(String url);
 
+     // This is the fallback: it gets the 6 latest articles from the entire database
+    List<NewsArticle> findTop6ByOrderByPublishedDateDesc();
+
 }

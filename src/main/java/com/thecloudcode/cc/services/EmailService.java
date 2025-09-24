@@ -146,7 +146,7 @@ public class EmailService {
                             <li>📚 <strong>Learning Resources</strong> - Tutorials and guides for skill development</li>
                         </ul>
                         <p>Your first newsletter will arrive tomorrow morning at 8 AM IST.</p>
-                        <a href="https://thecloudcode.com" class="button">Visit Our Website</a>
+                        <a href="https://thecloudcode-frontend.vercel.app/" class="button">Visit Our Website</a>
                     </div>
                     <div class="footer">
                         <p>You're receiving this because you subscribed to TheCloudCode Newsletter</p>

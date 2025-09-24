@@ -22,6 +22,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/subscribers")
 @CrossOrigin(origins = "http://localhost:3000")
+
 public class SubscriberController {
 
     @Autowired

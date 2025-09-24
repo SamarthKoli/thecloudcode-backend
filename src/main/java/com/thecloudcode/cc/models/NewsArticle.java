@@ -27,10 +27,10 @@ public class NewsArticle {
     @Column(length = 500)
     private String title;
 
-    @Column(length = 2000)
+    @Column(length = 2000, columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 1000)
+    @Column(length = 1000, unique = true)
     private String url;
 
        
