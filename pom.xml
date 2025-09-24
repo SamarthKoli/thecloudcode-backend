@@ -81,6 +81,13 @@
     <artifactId>spring-boot-starter-mail</artifactId>
 </dependency>
 
+<!-- Add this dependency to your pom.xml -->
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+
 
 	<dependency>
         <groupId>com.theokanning.openai-gpt3-java</groupId>
