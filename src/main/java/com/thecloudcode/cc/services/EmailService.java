@@ -178,7 +178,7 @@ public class EmailService {
                 
                 <!-- CTA Button -->
                 <div style="text-align: center; margin: 35px 0;">
-                    <a href="https://thecloudcode.com" 
+                    <a href="https://www.thecloudcode.fun/" 
                        style="background: linear-gradient(135deg, #ff6b35, #f7931e); 
                               color: white; 
                               padding: 15px 35px; 
@@ -200,7 +200,7 @@ public class EmailService {
                     <p style="margin-bottom: 15px;">Making tech accessible, one newsletter at a time 🚀</p>
                     <p style="font-size: 12px; color: #999;">
                         If you don't want to receive these emails, you can 
-                        <a href="https://thecloudcode.com/unsubscribe" style="color: #ff6b35; text-decoration: underline;">unsubscribe anytime</a>.
+                        <a href="https://www.thecloudcode.fun/unsubscribe" style="color: #ff6b35; text-decoration: underline;">unsubscribe anytime</a>.
                     </p>
                 </div>
             </body>
@@ -223,7 +223,7 @@ public class EmailService {
                     <p style="font-size: 16px; line-height: 1.7; margin-bottom: 20px;">You have been successfully unsubscribed from TheCloudCode Newsletter.</p>
                     <p style="font-size: 16px; line-height: 1.7; color: #666;">We're sorry to see you go! If you change your mind, you can always resubscribe at our website.</p>
                     <div style="margin: 30px 0;">
-                        <a href="https://thecloudcode.com" 
+                        <a href="https://www.thecloudcode.fun/" 
                            style="background: linear-gradient(135deg, #ff6b35, #f7931e); 
                                   color: white; 
                                   padding: 12px 30px; 
