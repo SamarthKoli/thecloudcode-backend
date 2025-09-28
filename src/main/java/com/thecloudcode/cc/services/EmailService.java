@@ -7,20 +7,25 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
 
-    @Autowired
+    @Autowired(required = false)
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
+    @Autowired(required = false)
+    private MailMicroserviceClient mailMicroserviceClient;
+
+    @Value("${spring.mail.username:}")
     private String senderEmail;
 
     @Value("${app.newsletter.sender.name:TheCloudCode Newsletter}")
     private String senderName;
+
+    @Value("${email.provider:smtp}")
+    private String emailProvider;
 
     // Enhanced email validation
     private boolean isValidEmail(String email) {
@@ -38,19 +43,27 @@ public class EmailService {
             return false;
         }
 
+        // Use mail microservice if configured
+        if ("mail-microservice".equalsIgnoreCase(emailProvider) && mailMicroserviceClient != null) {
+            String htmlContent = "<html><body><pre style='font-family: Arial, sans-serif; white-space: pre-wrap;'>" + 
+                                  escapeHtml(text) + "</pre></body></html>";
+            return mailMicroserviceClient.sendEmail(to, subject, htmlContent);
+        }
+
+        // Fallback to SMTP
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(senderEmail);
             message.setTo(to);
             message.setSubject(subject);
             message.setText(text);
-            
+
             javaMailSender.send(message);
-            System.out.println("✅ Email sent successfully to: " + to);
+            System.out.println("✅ SMTP: Email sent successfully to: " + to);
             return true;
-            
+
         } catch (Exception e) {
-            System.err.println("❌ Failed to send email to " + to + ": " + e.getMessage());
+            System.err.println("❌ Failed to send SMTP email to " + to + ": " + e.getMessage());
             return false;
         }
     }
@@ -62,73 +75,61 @@ public class EmailService {
             return false;
         }
 
+        // Use mail microservice if configured
+        if ("mail-microservice".equalsIgnoreCase(emailProvider) && mailMicroserviceClient != null) {
+            return mailMicroserviceClient.sendEmail(to, subject, htmlContent);
+        }
+
+        // Fallback to SMTP
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            
+
             helper.setFrom(senderEmail, senderName);
             helper.setTo(to);
             helper.setSubject(subject);
-            
+
             // Set both plain text and HTML for better deliverability
             String plainText = htmlContent.replaceAll("\\<[^>]*>", "");
             helper.setText(plainText, htmlContent);
-            
+
             javaMailSender.send(message);
-            System.out.println("✅ HTML email sent successfully to: " + to);
+            System.out.println("✅ SMTP: HTML email sent successfully to: " + to);
             return true;
-            
+
         } catch (Exception e) {
-            System.err.println("❌ Failed to send HTML email to " + to + ": " + e.getMessage());
+            System.err.println("❌ Failed to send SMTP HTML email to " + to + ": " + e.getMessage());
             return false;
         }
     }
 
-    // Send subscription confirmation email
     public boolean sendSubscriptionConfirmation(String to) {
         String subject = "🎉 Welcome to TheCloudCode Newsletter!";
         String htmlContent = createWelcomeEmailHtml(to);
-        
-        System.out.println("📧 Sending welcome email to: " + to);
+
+        System.out.println("📧 Sending welcome email to: " + to + " via " + emailProvider);
         return sendHtmlEmail(to, subject, htmlContent);
     }
 
-    // Send unsubscribe confirmation
     public boolean sendUnsubscribeConfirmation(String to) {
         String subject = "You've been unsubscribed from TheCloudCode Newsletter";
         String htmlContent = createUnsubscribeEmailHtml(to);
-        
-        System.out.println("📧 Sending unsubscribe confirmation to: " + to);
+
+        System.out.println("📧 Sending unsubscribe confirmation to: " + to + " via " + emailProvider);
         return sendHtmlEmail(to, subject, htmlContent);
     }
 
-    // Send daily newsletter
     public boolean sendDailyNewsletter(String to, String subject, String htmlContent) {
-        System.out.println("📧 Sending newsletter to: " + to);
+        System.out.println("📧 Sending newsletter to: " + to + " via " + emailProvider);
         return sendHtmlEmail(to, subject, htmlContent);
     }
 
-    // Test email connectivity
-    public boolean testEmailConnection() {
-        try {
-            String testSubject = "📧 TheCloudCode Newsletter - Connection Test";
-            String testContent = "Email service is working correctly! Test sent at: " + 
-                               java.time.LocalDateTime.now();
-            
-            boolean result = sendSimpleEmail(senderEmail, testSubject, testContent);
-            
-            if (result) {
-                System.out.println("✅ Email connection test passed");
-            } else {
-                System.err.println("❌ Email connection test failed");
-            }
-            
-            return result;
-            
-        } catch (Exception e) {
-            System.err.println("❌ Email connection test error: " + e.getMessage());
-            return false;
-        }
+    private String escapeHtml(String text) {
+        return text.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#x27;");
     }
 
     private String createWelcomeEmailHtml(String email) {
