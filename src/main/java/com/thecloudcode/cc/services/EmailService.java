@@ -77,6 +77,7 @@ public class EmailService {
 
         // Use mail microservice if configured
         if ("mail-microservice".equalsIgnoreCase(emailProvider) && mailMicroserviceClient != null) {
+            System.out.println("Using mail microservice to send email to: " + to);
             return mailMicroserviceClient.sendEmail(to, subject, htmlContent);
         }
 
