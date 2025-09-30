@@ -50,6 +50,21 @@ public class NewsController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+    @GetMapping("/cached-latest")
+    public ResponseEntity<Map<String, Object>> getCachedLatestArticles() {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            List<NewsArticle> latestArticles = articleRepository.findTop6ByOrderByPublishedDateDesc();
+            response.put("success", true);
+            response.put("articles", latestArticles);
+            response.put("count", latestArticles.size());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error fetching cached articles: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
+        }
+    }
     
     @GetMapping("/recent")
     public ResponseEntity<Map<String, Object>> getRecentArticles() {
