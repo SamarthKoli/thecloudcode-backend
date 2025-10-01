@@ -32,6 +32,15 @@ public class NewsController {
     @Autowired
     private NewsletterSchedulerService schedulerService;
     
+    
+    @PostMapping("/newsletter/trigger")
+    public ResponseEntity<?> triggerNewsletterJob() {
+        schedulerService.sendDailyNewsletter();
+        return ResponseEntity.ok().body("Newsletter job triggered");
+    }
+
+
+
     @PostMapping("/collect")
     public ResponseEntity<Map<String, Object>> collectNews() {
         Map<String, Object> response = new HashMap<>();
