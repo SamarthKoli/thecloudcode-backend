@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 @Service
 @Transactional
 public class RSSCollectorService {
@@ -189,7 +187,17 @@ private String getImageFromArticlePage(String articleUrl) {
         List<NewsArticle> vergeArticles = fetchArticlesFromRSS(
             "https://www.theverge.com/rss/index.xml", "The Verge"
         );
+
         totalCollected += vergeArticles.size();
+
+        List<NewsArticle> wiredArticles=fetchArticlesFromRSS(
+            "https://www.wired.com/feed/tag/ai/latest/rss", "Wired");
+
+            totalCollected+=wiredArticles.size();
+
+        List<NewsArticle>microsoftArticles=fetchArticlesFromRSS(
+            "https://devblogs.microsoft.com/java/feed/", "Microsoft Dev Blogs");
+            totalCollected+=microsoftArticles.size();
         
         return totalCollected;
     }
