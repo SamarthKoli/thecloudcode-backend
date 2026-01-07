@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/leetcase")
-@CrossOrigin(origins = "http://localhost:3000")
 public class LeetCaseController {
     
     @Autowired

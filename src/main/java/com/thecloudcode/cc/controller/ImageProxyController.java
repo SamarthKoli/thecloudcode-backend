@@ -8,7 +8,6 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/proxy")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ImageProxyController {
     
     @Autowired
