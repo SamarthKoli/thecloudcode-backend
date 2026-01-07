@@ -125,10 +125,15 @@ public class LeetcodeService {
                 } else if (!icon.startsWith("http")) {
                     icon = "https://assets.leetcode.com/static_assets/public/webpack_bundles/images/logo-dark.e99485d9b.svg";
                 }
-                
-                // Proxy through our backend to avoid CORS
-                icon = "http://localhost:8080/api/proxy/badge-image?url=" + 
-                       java.net.URLEncoder.encode(icon, java.nio.charset.StandardCharsets.UTF_8);
+                // REPLACE WITH THIS:
+if (icon.startsWith("/")) {
+    icon = "https://leetcode.com" + icon;
+}
+// Just return the raw LeetCode URL. The frontend will handle the proxying.
+result.put("icon", icon); 
+                // // Proxy through our backend to avoid CORS
+                // icon = "http://localhost:8080/api/proxy/badge-image?url=" + 
+                //        java.net.URLEncoder.encode(icon, java.nio.charset.StandardCharsets.UTF_8);
             } else {
                 icon = "http://localhost:8080/api/proxy/badge-image?url=" + 
                        java.net.URLEncoder.encode("https://assets.leetcode.com/static_assets/public/webpack_bundles/images/logo-dark.e99485d9b.svg", 

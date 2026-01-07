@@ -30,13 +30,14 @@ public class ImageProxyController {
                 byte[].class
             );
             
-            if (response.getStatusCode() == HttpStatus.OK) {
-                HttpHeaders responseHeaders = new HttpHeaders();
-                responseHeaders.setContentType(MediaType.IMAGE_PNG);
-                responseHeaders.setCacheControl("public, max-age=86400"); // Cache for 1 day
-                
-                return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
-            }
+           if (response.getStatusCode() == HttpStatus.OK) {
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.setContentType(MediaType.IMAGE_PNG);
+    // Add this line to allow the browser to read the image for html2canvas
+    responseHeaders.setAccessControlAllowOrigin("https://www.thecloudcode.fun");
+    return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
+}
+
             
             return ResponseEntity.notFound().build();
             
