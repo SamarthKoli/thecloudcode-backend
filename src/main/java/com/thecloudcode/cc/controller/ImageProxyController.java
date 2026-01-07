@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api/proxy")
+@RequestMapping("/api/v1/assets")
 public class ImageProxyController {
     
     @Autowired
